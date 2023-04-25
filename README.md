@@ -22,3 +22,5 @@ make -j4
 Tak jak budowanie, można wykorzystać CMake tools w Visual Studio Code albo znaleźć plik wykonywalny (pod nazwą z `add_executable` w pliku `CMakeLists.txt`).
 
 # Zadanie projektowe
+1. Uzupełnić kod zgodnie z polami TODO w plikach `PlanarQuadrotor`
+2. Dodać bibliotekę do odtwarzania dźwięku i odtwarzać dźwięk który narasta wraz z wiekszym sterowaniem (input w klasie PlanarQuadrotor)
