@@ -28,7 +28,7 @@ Eigen::MatrixXf LQR(PlanarQuadrotor &quadrotor, float dt) {
 
 void control(PlanarQuadrotor &quadrotor, const Eigen::MatrixXf &K) {
     Eigen::Vector2f input = quadrotor.GravityCompInput();
-    quadrotor.SetInput(input - K * quadrotor.GetState());
+    quadrotor.SetInput(input - K * quadrotor.GetControlState());
 }
 
 int main(int argc, char* args[])
@@ -42,14 +42,17 @@ int main(int argc, char* args[])
 	 * TODO: Extend simulation
 	 * 1. Set goal state of the mouse when clicking left mouse button (transform the coordinates to the quadrotor world! see visualizer TODO list)
 	 *    [x, y, 0, 0, 0, 0]
-	 * 2. Add Eigen::VectorXf goal to the PlanarQuadrotor class and update it from simulation when goal is changed
+	 * 2. Update PlanarQuadrotor it from simulation when goal is changed
 	*/
-	PlanarQuadrotor quadrotor;
+	Eigen::VectorXf initial_state = Eigen::VectorXf::Zero(6);
+	PlanarQuadrotor quadrotor(initial_state);
 	PlanarQuadrotorVisualizer quadrotor_visualizer(&quadrotor);
 	/* Goal pose for the quadrotor */
-	Eigen::Vector3f goal_pose = Eigen::Vector3f::Zero();
+	Eigen::VectorXf goal_state = Eigen::VectorXf::Zero(6);
+	goal_state << 0, 0, 0, 0, 0, 0;
+	quadrotor.SetGoal(goal_state);
 	/* Timestep for the simulation */
-	const float dt = 0.0001;
+	const float dt = 0.001;
 	Eigen::MatrixXf K = LQR(quadrotor, dt);
 	Eigen::Vector2f input = Eigen::Vector2f::Zero(2);
 
@@ -66,10 +69,6 @@ int main(int argc, char* args[])
 	{
 		SDL_Event e;
 		bool quit = false;
-		Uint64 last_time = SDL_GetPerformanceCounter();
-		Uint64 now;
-		float freq = SDL_GetPerformanceFrequency();
-		float diff;
 		float delay;
 		int x, y;
 		Eigen::VectorXf state = Eigen::VectorXf::Zero(6);
@@ -91,12 +90,7 @@ int main(int argc, char* args[])
                 
 			}
 
-			now = SDL_GetPerformanceCounter();
-			diff = ((now - last_time) / freq) * 1000;
-			delay = 1000 / 300. - diff;
-			delay = delay > 0 ? delay : 0;
-			SDL_Delay(delay);
-			last_time = SDL_GetPerformanceCounter();
+			SDL_Delay((int) dt * 1000);
 
 			SDL_SetRenderDrawColor(gRenderer.get(), 0xFF, 0xFF, 0xFF, 0xFF);
 			SDL_RenderClear(gRenderer.get());

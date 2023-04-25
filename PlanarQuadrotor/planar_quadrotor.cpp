@@ -14,8 +14,16 @@ PlanarQuadrotor::PlanarQuadrotor() {
 
 PlanarQuadrotor::PlanarQuadrotor(Eigen::VectorXf z): z(z) {}
 
+void PlanarQuadrotor::SetGoal(Eigen::VectorXf z_goal) {
+    this->z_goal = z_goal;
+}
+
 Eigen::VectorXf PlanarQuadrotor::GetState() {
     return z;
+}
+
+Eigen::VectorXf PlanarQuadrotor::GetControlState() {
+    return z - z_goal;
 }
 
 Eigen::Vector2f PlanarQuadrotor::GravityCompInput() {
