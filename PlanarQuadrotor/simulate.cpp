@@ -42,14 +42,18 @@ int main(int argc, char* args[])
 	 * TODO: Extend simulation
 	 * 1. Set goal state of the mouse when clicking left mouse button (transform the coordinates to the quadrotor world! see visualizer TODO list)
 	 *    [x, y, 0, 0, 0, 0]
-	 * 2. Update PlanarQuadrotor it from simulation when goal is changed
+	 * 2. Update PlanarQuadrotor from simulation when goal is changed
 	*/
 	Eigen::VectorXf initial_state = Eigen::VectorXf::Zero(6);
 	PlanarQuadrotor quadrotor(initial_state);
 	PlanarQuadrotorVisualizer quadrotor_visualizer(&quadrotor);
-	/* Goal pose for the quadrotor */
+	/**
+	 * Goal pose for the quadrotor
+	 * [x, y, theta, x_dot, y_dot, theta_dot]
+	 * For implemented LQR controller, it has to be [x, y, 0, 0, 0, 0]
+	*/
 	Eigen::VectorXf goal_state = Eigen::VectorXf::Zero(6);
-	goal_state << 0, 0, 0, 0, 0, 0;
+	goal_state << -1, 7, 0, 0, 0, 0;
 	quadrotor.SetGoal(goal_state);
 	/* Timestep for the simulation */
 	const float dt = 0.001;
