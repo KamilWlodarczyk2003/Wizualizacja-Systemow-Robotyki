@@ -8,6 +8,9 @@ PlanarQuadrotorVisualizer::PlanarQuadrotorVisualizer(PlanarQuadrotor *quadrotor_
  * 2. Use more shapes to represent quadrotor (e.x. try replicate http://underactuated.mit.edu/acrobot.html#section3 or do something prettier)
  * 3. Animate proppelers (extra points)
  */
+
+
+
 void PlanarQuadrotorVisualizer::render(std::shared_ptr<SDL_Renderer> &gRenderer) {
     Eigen::VectorXf state = quadrotor_ptr->GetState();
     float q_x, q_y, q_theta;
