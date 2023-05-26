@@ -1,3 +1,5 @@
+# Wykonał Kamil Włodarczyk 193479 i Kajetan Zawadka 193563
+
 # Techniki Programowania - Projekt 3
 Projekt polega na wczytaniu, przetworzeniu oraz zwizualizowaniu sygnałów występujących w systemach robotycznych. Projekt będzie realizowany z wykorzystaniem programu CMake.
 
