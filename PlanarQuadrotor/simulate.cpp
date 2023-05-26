@@ -35,14 +35,31 @@ void control(PlanarQuadrotor &quadrotor, const Eigen::MatrixXf &K) {
     quadrotor.SetInput(input - K * quadrotor.GetControlState());
 }
 
-void show_history(std::vector<float> x_history, std::vector<float> y_history, std::vector<float> theta_history)
+void show_history(std::vector<float> x_history, std::vector<float> y_history, std::vector<float> theta_history, std::vector<float> time_history)
 {
-    matplot::plot(x_history, y_history);
+    matplot::figure();
+    matplot::subplot(3, 1, 1);
+    matplot::plot(time_history, x_history);
+    matplot::xlabel("Time");
+    matplot::ylabel("x");
+
+    matplot::subplot(3, 1, 2);
+    matplot::plot(time_history, y_history);
+    matplot::xlabel("Time");
+    matplot::ylabel("y");
+
+    matplot::subplot(3, 1, 3);
+    matplot::plot(time_history, theta_history);
+    matplot::xlabel("Time");
+    matplot::ylabel("theta");
+
     matplot::show();
 }
 
 int main(int argc, char* args[])
 {
+    auto start_time = std::chrono::high_resolution_clock::now();
+    //int time=0;
     std::shared_ptr<SDL_Window> gWindow = nullptr;
     std::shared_ptr<SDL_Renderer> gRenderer = nullptr;
     const int SCREEN_WIDTH = 1280;
@@ -72,7 +89,7 @@ int main(int argc, char* args[])
     goal_state << sx, sy, 0, 0, 0, 0;
     quadrotor.SetGoal(goal_state);
     /* Timestep for the simulation */
-    const float dt = 0.001;
+    const float dt = 0.003;
     Eigen::MatrixXf K = LQR(quadrotor, dt);
     Eigen::Vector2f input = Eigen::Vector2f::Zero(2);
 
@@ -84,6 +101,7 @@ int main(int argc, char* args[])
     std::vector<float> x_history;
     std::vector<float> y_history;
     std::vector<float> theta_history;
+    std::vector<float> time_history;
 
     bool show_plot = false;
     bool prev_p_state = false;
@@ -99,6 +117,8 @@ int main(int argc, char* args[])
 
         while (!quit)
         {
+            auto current_time = std::chrono::high_resolution_clock::now();
+            float elapsed_time = std::chrono::duration<float>(current_time - start_time).count();
             Eigen::VectorXf current_state = quadrotor.GetState();
             x_history.push_back(current_state[0]);
             y_history.push_back(current_state[1]);
@@ -138,7 +158,7 @@ int main(int argc, char* args[])
 
             /* Simulate quadrotor forward in time */
             control(quadrotor, K);
-            t=t+dt*3;
+            t=t+dt;
             quadrotor.Update(dt);
 
             const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
@@ -150,9 +170,11 @@ int main(int argc, char* args[])
 
             prev_p_state = current_p_state;
 
+            time_history.push_back(elapsed_time);
+
             if (show_plot) {
-            show_history(x_history, y_history, theta_history);
-    }
+            show_history(x_history, y_history, theta_history, time_history);
+            }
 
         }
     }

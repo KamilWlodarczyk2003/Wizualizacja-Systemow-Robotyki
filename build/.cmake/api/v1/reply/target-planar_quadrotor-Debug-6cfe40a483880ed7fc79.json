@@ -171,8 +171,12 @@
 	"dependencies" : 
 	[
 		{
-			"backtrace" : 3,
-			"id" : "SDL2main::@e7c329919722962a2ad4"
+			"backtrace" : 4,
+			"id" : "nodesoup::@c12dc8f6f399c06ad5fb"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "SDL2_gfx::@2c7becf580f3cc8d05f2"
 		},
 		{
 			"backtrace" : 4,
@@ -180,15 +184,11 @@
 		},
 		{
 			"backtrace" : 4,
-			"id" : "nodesoup::@c12dc8f6f399c06ad5fb"
-		},
-		{
-			"backtrace" : 4,
 			"id" : "matplot::@900000785becdfd3715c"
 		},
 		{
-			"backtrace" : 2,
-			"id" : "SDL2_gfx::@2c7becf580f3cc8d05f2"
+			"backtrace" : 3,
+			"id" : "SDL2main::@e7c329919722962a2ad4"
 		}
 	],
 	"id" : "planar_quadrotor::@6890427a1f51a3e7e1df",

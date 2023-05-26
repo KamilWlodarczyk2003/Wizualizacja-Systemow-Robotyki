@@ -26,7 +26,7 @@ void PlanarQuadrotorVisualizer::render(std::shared_ptr<SDL_Renderer>& gRenderer)
     Sint16 vy[4];
 
     int l=100;
-    int h=10;
+    int h=20;
 
     float x1, x2, y1, y2;
 
@@ -43,5 +43,5 @@ void PlanarQuadrotorVisualizer::render(std::shared_ptr<SDL_Renderer>& gRenderer)
     vy[2] = y2 + cos(q_theta) * (h / 2);
     vy[3] = y2 - cos(q_theta) * (h / 2);
 
-    filledPolygonColor(gRenderer.get(), vx, vy, 4, 0xff98aaaa);
+    filledPolygonColor(gRenderer.get(), vx, vy, 4, 0xff3b3131);
 }   
